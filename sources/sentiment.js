@@ -123,6 +123,11 @@ $(document).ready(function() {
       		// get input
       		var input = $("#amplify_input").val();
 
+      		if( input.indexOf("http") == -1 )
+      		{
+      			input = "http://" + input;
+      		}
+
       		//  OpenAmplify Constant
       		var APIKey 			= "7q6yn7fst5vde85kdfgwquqwtt9djrk4";
       		var APIURL 			= "http://portaltnx20.openamplify.com/AmplifyWeb_v30/AmplifyThis";
@@ -151,19 +156,32 @@ $(document).ready(function() {
 				contentAlert( "<h4>Amplified !</h4>", "success" );
 
 			 	console.log("status : " + status);
-			  	console.log(response);
-
-				response = response.replace( "ns2:AmplifyResponse" , "AmplifyResponse" );
 				response = response.replace(/\n/g, "<br>");
 				response = response.replace(/\\/g, "\\\\");
 
-			  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
+				var temps = response.split( "AmplifyReturn" );
 
-			  	// show results !
-			  	var resultObj = responseObj.AmplifyResponse.AmplifyReturn;
-				generateDemographicTable( resultObj.Demographics );
-				generateTopicIntentionsChart( resultObj.TopicIntentions );
-				generateTopTopicsChart( resultObj.Actions );
+				if( temps[1] === undefined )
+				{
+				  	console.log(response);
+					contentAlert( "<h4>Request Failed !</h4>Source is not suitable for sentiment analysis" , "error" );
+				}
+				else
+				{
+					response = '{"AmplifyReturn' + temps[1];
+					response = response.substr( 0, response.length-1 );
+
+				  	console.log(response);
+
+				  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
+				  	console.log(responseObj);
+
+				  	// show results !
+				  	var resultObj = responseObj.AmplifyReturn;
+					generateDemographicTable( resultObj.Demographics );
+					generateTopicIntentionsChart( resultObj.TopicIntentions );
+					generateTopTopicsChart( resultObj.Actions );
+				}
 
 			})
 			jqxhr.fail(function( response ) { contentAlert( "<h4>Request Failed !</h4>Amplify failed please try again with another source or re-check your source", "error" ); console.log(response); })
