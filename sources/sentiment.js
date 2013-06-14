@@ -1,7 +1,8 @@
 $(document).ready(function() {
       
-	$("#topicIntentions").hide();
-	$("#topTopics").hide();
+	$("#content_table").hide();
+	$("#Actions").hide();
+	$("#TopicsIntention").hide();
 
 	var contentAlert = function( message, alertType )
 	{
@@ -16,14 +17,14 @@ $(document).ready(function() {
 	// Generating Table and Chart
 	var generateDemographicTable = function( data )
 	{
-		var content = "<strong>Demographics</strong>";
+		var content = '<h4 class="text-info">Demographics</h4>';
 
 		var tableHead = '<table class="table"> <thead><tr><th>Age</th><th>Gender</th><th>Education</th><th>Language</th></tr></thead><tbody>';
 		var row = "<tr>";
-		row += "<td>" + data.Age.Name + "</td>";
-		row += "<td>" + data.Gender.Name + "</td>";
-		row += "<td>" + data.Education.Name + "</td>";
-		row += "<td>" + data.Language.Name + "</td>";
+		row += "<td>" + data.Age.Name + ' <span class="label">'+ data.Age.Value + '</span></td>';
+		row += "<td>" + data.Gender.Name + ' <span class="label">'+ data.Gender.Value + '</span></td>';
+		row += "<td>" + data.Education.Name + ' <span class="label">'+ data.Education.Value + '</span></td>';
+		row += "<td>" + data.Language.Name + ' <span class="label">'+ data.Language.Value + '</span></td>';
 		row += "</tr>";
 
 		content += tableHead;
@@ -33,9 +34,53 @@ $(document).ready(function() {
 		$("#table_demographic").html( content );
 	}
 
+	var generateStyleTable = function( data )
+	{
+		var content = '<h4 class="text-info">Styles</h4>';
+
+		var tableHead = '<table class="table"> <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead><tbody>';
+		var row = "<tr>";
+
+		row += "<td>Contrast</td>";
+		row += "<td>" + data.Contrast.Name + "</td>";
+		row += "<td>" + data.Contrast.Value + "</td>";
+		row += "</tr>";
+
+		row += "<td>Decisiveness</td>";
+		row += "<td>" + data.Decisiveness.Name + "</td>";
+		row += "<td>" + data.Decisiveness.Value + "</td>";
+		row += "</tr>";
+
+		row += "<td>Flamboyance</td>";
+		row += "<td>" + data.Flamboyance.Name + "</td>";
+		row += "<td>" + data.Flamboyance.Value + "</td>";
+		row += "</tr>";
+
+		row += "<td>OfferingGuidance</td>";
+		row += "<td>" + data.OfferingGuidance.Name + "</td>";
+		row += "<td>" + data.OfferingGuidance.Value + "</td>";
+		row += "</tr>";
+
+		row += "<td>RequestingGuidance</td>";
+		row += "<td>" + data.RequestingGuidance.Name + "</td>";
+		row += "<td>" + data.RequestingGuidance.Value + "</td>";
+		row += "</tr>";
+
+		row += "<td>Slang</td>";
+		row += "<td>" + data.Slang.Name + "</td>";
+		row += "<td>" + data.Slang.Value + "</td>";
+		row += "</tr>";
+
+		content += tableHead;
+		content += row;
+		content += "</tbody></table>";
+
+		$("#table_styles").html( content );
+	}
+
 	var generateTopicIntentionsChart = function( data )
 	{
-		$("#topicIntentions").show();
+		$("#TopicsIntention").show();
 		
 		// get data
 		var Topics = new Array();
@@ -63,14 +108,14 @@ $(document).ready(function() {
 
 		var options = { scaleShowLabels : true };
 
-		var ctx = $("#chart_topicIntentions").get(0).getContext("2d");
+		var ctx = $("#chart_topicsintention").get(0).getContext("2d");
 		var topicintentionChart = new Chart(ctx).Radar( data, options );
 
 	}
 
 	var generateTopTopicsChart = function( data )
 	{
-		$("#topTopics").show();
+		$("#Actions").show();
 		
 		// get data
 		var Topics = new Array();
@@ -96,7 +141,7 @@ $(document).ready(function() {
 
 		var options = { scaleShowLabels : true };
 
-		var ctx = $("#chart_topTopics").get(0).getContext("2d");
+		var ctx = $("#chart_actions").get(0).getContext("2d");
 		var toptopicsChart = new Chart(ctx).Bar( data, options );
 
 	}
@@ -116,6 +161,9 @@ $(document).ready(function() {
 		generateDemographicTable( resultObj.Demographics );
 		generateTopicIntentionsChart( resultObj.TopicIntentions );
 		generateTopTopicsChart( resultObj.Actions );
+		generateStyleTable( resultObj.Styles );
+
+		$("#content_table").show();
 	}
 
       $("#amplify_button").click(function(){
@@ -140,51 +188,51 @@ $(document).ready(function() {
 					      		+ "&" + "sourceurl=" + SourceURL
 					      		+ "&" + "outputFormat=" + OutputFormat;
 
-			// testGenerate();
-			loadingAlert( input );
-			var postData = 	{
-								apiKey : APIKey,
-								analysis : AnalysisType,
-								sourceURL : input, 
-								outputFormat : OutputFormat
-							}
+			testGenerate();
+			// loadingAlert( input );
+			// var postData = 	{
+			// 					apiKey : APIKey,
+			// 					analysis : AnalysisType,
+			// 					sourceURL : input, 
+			// 					outputFormat : OutputFormat
+			// 				}
 
-			console.log(postData);
+			// console.log(postData);
 
-			var jqxhr = $.post("api.php", postData, function( response , status ) {
+			// var jqxhr = $.post("api.php", postData, function( response , status ) {
 
-				contentAlert( "<h4>Amplified !</h4>", "success" );
+			// 	contentAlert( "<h4>Amplified !</h4>", "success" );
 
-			 	console.log("status : " + status);
-				response = response.replace(/\n/g, "<br>");
-				response = response.replace(/\\/g, "\\\\");
+			//  	console.log("status : " + status);
+			// 	response = response.replace(/\n/g, "<br>");
+			// 	response = response.replace(/\\/g, "\\\\");
 
-				var temps = response.split( "AmplifyReturn" );
+			// 	var temps = response.split( "AmplifyReturn" );
 
-				if( temps[1] === undefined )
-				{
-				  	console.log(response);
-					contentAlert( "<h4>Request Failed !</h4>Source is not suitable for sentiment analysis" , "error" );
-				}
-				else
-				{
-					response = '{"AmplifyReturn' + temps[1];
-					response = response.substr( 0, response.length-1 );
+			// 	if( temps[1] === undefined )
+			// 	{
+			// 	  	console.log(response);
+			// 		contentAlert( "<h4>Request Failed !</h4>Source is not suitable for sentiment analysis" , "error" );
+			// 	}
+			// 	else
+			// 	{
+			// 		response = '{"AmplifyReturn' + temps[1];
+			// 		response = response.substr( 0, response.length-1 );
 
-				  	console.log(response);
+			// 	  	console.log(response);
 
-				  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
-				  	console.log(responseObj);
+			// 	  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
+			// 	  	console.log(responseObj);
 
-				  	// show results !
-				  	var resultObj = responseObj.AmplifyReturn;
-					generateDemographicTable( resultObj.Demographics );
-					generateTopicIntentionsChart( resultObj.TopicIntentions );
-					generateTopTopicsChart( resultObj.Actions );
-				}
+			// 	  	// show results !
+			// 	  	var resultObj = responseObj.AmplifyReturn;
+			// 		generateDemographicTable( resultObj.Demographics );
+			// 		generateTopicIntentionsChart( resultObj.TopicIntentions );
+			// 		generateTopTopicsChart( resultObj.Actions );
+			// 	}
 
-			})
-			jqxhr.fail(function( response ) { contentAlert( "<h4>Request Failed !</h4>Amplify failed please try again with another source or re-check your source", "error" ); console.log(response); })
+			// })
+			// jqxhr.fail(function( response ) { contentAlert( "<h4>Request Failed !</h4>Amplify failed please try again with another source or re-check your source", "error" ); console.log(response); })
 
       });
 

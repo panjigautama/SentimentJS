@@ -48,9 +48,14 @@
          width: 100px;
       }
 
-      #content_table
+      #content_table 
       {
          margin-top: 10px;
+      }
+
+      #table_demographic #table_styles
+      {
+         margin-top: 20px;
       }
 
       #content_chart #chart_topicIntentions
@@ -69,6 +74,10 @@
 <div id="header">
    <div class="page-header">
       <h1>Hello. <small>lets sentiment analysis some web contents, shall we ?</small></h1>
+      <small>
+         coded by panji gautama & johanes irawan &copy; 2013
+         | analysis API by <a href="http://www.openamplify.com">OpenAmplify</a>
+      </small>
    </div>
 
    <div id="contentAlert">
@@ -84,19 +93,38 @@
 <div id="content_table">
 
    <div id="table_demographic"></div>
+   <blockquote>
+      <small>estimates characteristics of the writing, which typically reflect characteristics of the author and/or the audience. Signals are produced for Age, Gender, Education Level and Language of the text. Depending upon the context and intent of the text, these signals may apply to the author(s), the intended audience, or both</small>
+   </blockquote>
 
+   <div id="table_styles"></div>
+   <blockquote>
+      <small>
+         <br><strong>Flamboyance</strong> - How can you tell if you are reading Henry James or Ernest Hemingway? Is the breathless recounting of a fabulous vacation trip the same as the dour enumeration of API features found in technical documentation? The Flamboyance score of a document is the key to answering these two questions, as well as more open ended questions about text genre or target audience.
+         <br><br><strong>Slang</strong> - This variable can be useful in assessing the characteristics of the author or intended audience. Vocabulary contributes heavily to the measurement of slang usage, although other linguistic constructs are also measured.
+         <br><br><strong>Contrast</strong> - This variable detects the degree to which divergent opinions are expressed in a text. As such, it is useful as an indicator of possible conflict, of dialogue versus monologue, etc.
+         <br><br><strong>Offering & Requesting Guidance</strong> - This variables help identify an author's relationship to topics they discuss. For example, a topic that returns a strong value for requesting guidance may indicate an opportunity for providing advice. A text where multiple topics get high values for offering guidance may be instructional or inspirational in nature. Guidance provides rich signals whose creative use, especially in combination with other signals such as action and temporality, can offer deep insight into needs and motivations.
+         <br><br><strong>Decisiveness</strong> - indicates for each action, how likely the action is to be taken
+      </small>
+   </blockquote>
 </div>
 
 <div id="content_chart">
 
-   <div id="topTopics">
-      <strong>Top Topics</strong>
-      <canvas id="chart_topTopics" width="800" height="600"></canvas>
+   <div id="Actions">
+      <h4 class="text-info">Actions</h4>
+      <blockquote>
+         <small>The Actions analysis delivers a set of signals that describe the actions that have been, are being, or may be undertaken in the text. Actions are presented not just as simple verbs, but in combination with their objects ("buy a car"). Tenses are analyzed and presented, along with any specific temporal references ("this week" or "at Easter") and other information. Guidance indicators and measurements of probability of action are also included</small>
+      </blockquote>
+      <canvas id="chart_actions" width="800" height="600"></canvas>
    </div>
 
-   <div id="topicIntentions">
-      <strong>Topic Intentions</strong>
-      <center><canvas id="chart_topicIntentions" width="400" height="400"></canvas></center>
+   <div id="TopicsIntention">
+      <h4 class="text-info">Topics Intention</h4>
+      <blockquote>
+         <small>OpenAmplify analysis provides information about the relationships between actions and topics. Because it directly links topics to their associated action types, it can be used to directly determine the author's intentions towards a given topic.</small>
+      </blockquote>
+      <center><canvas id="chart_topicsintention" width="400" height="400"></canvas></center>
    </div>
 
 </div>
