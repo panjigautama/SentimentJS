@@ -13,12 +13,96 @@
    <!-- ChartJS -->
    <script src="sources/Chart.min.js"></script>
 
+   <!-- Our sentiment js -->
+   <script src="sources/sentiment.js"></script>
+
    <title>SentimentJS</title>
+
+   <style type="text/css">
+
+      .container
+      {
+         margin: 25px;
+         width: 800px ;
+         margin-left: auto ;
+         margin-right: auto ;
+      }
+
+      #search_bar
+      {
+         margin: 0 auto;
+         width: 600px ;
+         margin-left: auto ;
+         margin-right: auto ;
+         text-align: center;
+      }
+
+      #amplify_input
+      {
+         width: 400px;
+      }
+
+      #amplify_button
+      {
+         margin-top: 10px;
+         width: 100px;
+      }
+
+      #content_table
+      {
+         margin-top: 10px;
+      }
+
+      #content_chart #chart_topicIntentions
+      {
+         margin-top: 10px;
+      }
+
+   </style>
 
 </head>
 
 <body>
-   Mari kita tulis.
+
+<div class="container">
+
+<div id="header">
+   <div class="page-header">
+      <h1>Hello. <small>lets amplify some web contents, shall we ?</small></h1>
+   </div>
+
+   <div id="contentAlert">
+   </div>
+</div>
+
+<div id="search_bar">
+  <input type="text" class="input-medium search-query" id="amplify_input" placeholder="put web url or rss here" >
+  <br>
+  <button type="submit" class="btn btn-info" id="amplify_button" >Amplify !</button>
+</div>
+
+<div id="content_table">
+
+   <div id="table_demographic"></div>
+
+</div>
+
+<div id="content_chart">
+
+   <div id="topTopics">
+      <strong>Top Topics</strong>
+      <canvas id="chart_topTopics" width="800" height="600"></canvas>
+   </div>
+
+   <div id="topicIntentions">
+      <strong>Topic Intentions</strong>
+      <center><canvas id="chart_topicIntentions" width="400" height="400"></canvas></center>
+   </div>
+
+</div>
+
+</div>
+
 </body>
 
 </html>
