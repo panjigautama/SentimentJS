@@ -266,7 +266,19 @@ $(document).ready(function() {
 		$("#content").show();
 	}
 
-      $("#amplify_button").click(function(){
+	var getLastSynched = function()
+	{
+		var currentdate = new Date(); 
+		var datetime = currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/" 
+                + currentdate.getFullYear() + " @ "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+        return datetime;
+	}
+
+    $("#amplify_button").click(function(){
 
       		// get input
       		var SourceURL = $("#amplify_input").val();
@@ -315,7 +327,7 @@ $(document).ready(function() {
 				}
 				else
 				{
-					$("#source").html( SourceURL );
+					$("#source").html( "<small>Result for : <strong>" + SourceURL + "</strong> ," + getLastSynched() + "</small>" );
 
 					response = '{"AmplifyReturn' + temps[1];
 					response = response.substr( 0, response.length-1 );
