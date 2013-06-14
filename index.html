@@ -48,7 +48,7 @@
          width: 100px;
       }
 
-      #content_table 
+      #content
       {
          margin-top: 10px;
       }
@@ -58,7 +58,7 @@
          margin-top: 20px;
       }
 
-      #content_chart #chart_topicIntentions
+      #chart_topicIntentions
       {
          margin-top: 10px;
       }
@@ -75,8 +75,9 @@
    <div class="page-header">
       <h1>Hello. <small>lets sentiment analysis some web contents, shall we ?</small></h1>
       <small>
-         coded by panji gautama & johanes irawan &copy; 2013
+         coded by <a href="https://twitter.com/panji_g">panji gautama</a> & johanes irawan &copy; 2013
          | analysis API by <a href="http://www.openamplify.com">OpenAmplify</a>
+         | source available on <a href="https://github.com/rhapsodixx/SentimentJS">github</a>
       </small>
    </div>
 
@@ -85,16 +86,57 @@
 </div>
 
 <div id="search_bar">
-  <input type="text" class="input-medium search-query" id="amplify_input" placeholder="put web url or rss here" >
+  <input type="text" class="input-medium search-query" id="amplify_input" placeholder="type web url here, example : www.thejakartapost.com" >
   <br>
-  <button type="submit" class="btn btn-info" id="amplify_button" >Amplify !</button>
+  <button type="submit" class="btn btn-danger" id="amplify_button" >Amplify !</button>
 </div>
 
-<div id="content_table">
+<div id="content">
+
+   <div id="header_result">
+      <small>Result for <div id="source"></div></small>
+   </div>
 
    <div id="table_demographic"></div>
    <blockquote>
-      <small>estimates characteristics of the writing, which typically reflect characteristics of the author and/or the audience. Signals are produced for Age, Gender, Education Level and Language of the text. Depending upon the context and intent of the text, these signals may apply to the author(s), the intended audience, or both</small>
+      <small>
+      <br><strong>Age</strong> - an estimate of the age range of the author/audience of the text.
+      <br><strong>Gender</strong> - the probable gender of the author/audience
+      <br><strong>Education</strong> - the probable education level of the author/audience
+      <br><strong>Language</strong> - the language in which the text is written
+      </small>
+   </blockquote>
+
+   <div id="table_toptopics"></div>
+   <blockquote>
+      <small>Polarity gives the sentiment values associated with the topic and measure of the overall attitude the text expresses about the topic</small>
+   </blockquote>
+
+   <div id="TopicsIntention">
+      <h4 class="alert alert-info">Topics Intention</h4>
+      <blockquote>
+         <small>Determine the author's intentions towards a given source text. Topic intention item organizes topics into broader topics, which every single top topics will be covered on the next point. For example, bats, balls, bases and the like all fit into the topic of "baseball", which in turn is a "sport". "Sport" could in turn be categorized as "recreational activity", as "activity", and so on. The value indicates how prominent domain is in the text source.</small>
+      </blockquote>
+      <center><canvas id="chart_topicsintention" width="400" height="400"></canvas></center>
+   </div>
+
+   <div id="Actions">
+      <h4 class="alert alert-info">Actions</h4>
+      <blockquote>
+         <small>The Actions analysis delivers a set of signals that describe the actions that have been, are being, or may be undertaken in the text. Actions are presented not just as simple verbs, but in combination with their objects ("buy a car"). Tenses are analyzed and presented, along with any specific temporal references ("this week" or "at Easter") and other information. Describes the action (for example, "give a dollar") and its weight in the text. This is the percentage of the total of all action weights in the document.</small>
+      </blockquote>
+      <canvas id="chart_actions" width="800" height="600"></canvas>
+   </div>
+
+   <div id="table_actionstyles"></div>
+   <blockquote>
+      <small>
+         <br><strong>Type</strong> - broad category to the action
+         <br><br><strong>Decisiveness</strong> - measure of how likely the action is to take place ("I'm definitely buying that car!" versus "I'm considering getting a new car.")
+         <br><br><strong>Temporality</strong> - indications regarding the time-frame for the action. This might be simply past, present, or future, or can include specific times or dates ("this Christmas").
+         <br><br><strong>Offering Guidance</strong> - estimates the degree to which the text offers guidance or advice in relation to the specific action
+         <br><br><strong>Requesting Guidance</strong> - estimates the degree to which the text is requesting guidance or advice in relation to the specific action
+      </small>
    </blockquote>
 
    <div id="table_styles"></div>
@@ -107,25 +149,6 @@
          <br><br><strong>Decisiveness</strong> - indicates for each action, how likely the action is to be taken
       </small>
    </blockquote>
-</div>
-
-<div id="content_chart">
-
-   <div id="Actions">
-      <h4 class="text-info">Actions</h4>
-      <blockquote>
-         <small>The Actions analysis delivers a set of signals that describe the actions that have been, are being, or may be undertaken in the text. Actions are presented not just as simple verbs, but in combination with their objects ("buy a car"). Tenses are analyzed and presented, along with any specific temporal references ("this week" or "at Easter") and other information. Guidance indicators and measurements of probability of action are also included</small>
-      </blockquote>
-      <canvas id="chart_actions" width="800" height="600"></canvas>
-   </div>
-
-   <div id="TopicsIntention">
-      <h4 class="text-info">Topics Intention</h4>
-      <blockquote>
-         <small>OpenAmplify analysis provides information about the relationships between actions and topics. Because it directly links topics to their associated action types, it can be used to directly determine the author's intentions towards a given topic.</small>
-      </blockquote>
-      <center><canvas id="chart_topicsintention" width="400" height="400"></canvas></center>
-   </div>
 
 </div>
 

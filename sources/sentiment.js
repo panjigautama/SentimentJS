@@ -1,8 +1,6 @@
 $(document).ready(function() {
       
-	$("#content_table").hide();
-	$("#Actions").hide();
-	$("#TopicsIntention").hide();
+	$("#content").hide();
 
 	var contentAlert = function( message, alertType )
 	{
@@ -11,20 +9,20 @@ $(document).ready(function() {
 
 	var loadingAlert = function( message )
 	{
-		$("#contentAlert").html('amplifying ' + message + ', please wait a moment .. <br><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
+		$("#contentAlert").html('<small>amplifying ' + message + ', please wait a moment .. </small><br><div class="progress progress-striped active"><div class="bar" style="width: 100%;"></div></div>');
 	}
 
 	// Generating Table and Chart
 	var generateDemographicTable = function( data )
 	{
-		var content = '<h4 class="text-info">Demographics</h4>';
+		var content = '<h4 class="alert alert-info">Demographics</h4>';
 
-		var tableHead = '<table class="table"> <thead><tr><th>Age</th><th>Gender</th><th>Education</th><th>Language</th></tr></thead><tbody>';
+		var tableHead = '<table class="table table-bordered table-hover"> <thead><tr><th>Age</th><th>Gender</th><th>Education</th><th>Language</th></tr></thead><tbody>';
 		var row = "<tr>";
-		row += "<td>" + data.Age.Name + ' <span class="label">'+ data.Age.Value + '</span></td>';
-		row += "<td>" + data.Gender.Name + ' <span class="label">'+ data.Gender.Value + '</span></td>';
-		row += "<td>" + data.Education.Name + ' <span class="label">'+ data.Education.Value + '</span></td>';
-		row += "<td>" + data.Language.Name + ' <span class="label">'+ data.Language.Value + '</span></td>';
+		row += "<td>" + data.Age.Name + '</td>';
+		row += "<td>" + data.Gender.Name + ' </td>';
+		row += "<td>" + data.Education.Name + '</td>';
+		row += "<td>" + data.Language.Name + '</td>';
 		row += "</tr>";
 
 		content += tableHead;
@@ -34,41 +32,89 @@ $(document).ready(function() {
 		$("#table_demographic").html( content );
 	}
 
+	var colorPredict = function( value )
+	{
+		if( value > 0 )
+		{
+			return "green";
+		}
+		else if( value < 0 )
+		{
+			return "red";
+		}
+		else
+		{
+			return "black";
+		}
+	}
+
+	var generateTableTopTopics = function( data )
+	{
+		var content = '<h4 class="alert alert-info">Top Topics</h4>';
+		var tableHead = '<table class="table table-bordered table-hover"> <thead><tr><th>Topic</th><th>Polarity</th></tr></thead><tbody>';
+		var row = "";
+
+		row += "<tr>";
+		row += "<td></td>";
+		row += "<td><strong>Max</strong></td>";
+		row += "<td><strong>Mean</strong></td>";
+		row += "<td><strong>Min</strong></td>";
+		row += "</tr>";
+
+		for( var i = 0; i < data.length; i++ )
+		{
+			var temps = data[i];
+
+			row += "<tr>";
+			row += "<td>" + temps.Topic.Name + "</td>";
+			row += "<td>" + '<span style="color:'+  colorPredict(temps.Polarity.Max.Value) + '">' + temps.Polarity.Max.Value + "</span>" + "</td>";
+			row += "<td>" + '<span style="color:'+  colorPredict(temps.Polarity.Mean.Value) + '">' + temps.Polarity.Mean.Value + "</span>" + "</td>";
+			row += "<td>" + '<span style="color:'+  colorPredict(temps.Polarity.Min.Value) + '">' + temps.Polarity.Min.Value + "</span>" + "</td>";
+			row += "</tr>";
+		}
+
+		content += tableHead;
+		content += row;
+		content += "</tbody></table>";
+
+		$("#table_toptopics").html( content );
+	}
+
 	var generateStyleTable = function( data )
 	{
-		var content = '<h4 class="text-info">Styles</h4>';
+		var content = '<h4 class="alert alert-info">Source Styles</h4>';
 
-		var tableHead = '<table class="table"> <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead><tbody>';
+		var tableHead = '<table class="table table-bordered table-hover"> <thead><tr><th>Type</th><th>Name</th><th>Value</th></tr></thead><tbody>';
 		var row = "<tr>";
 
 		row += "<td>Contrast</td>";
 		row += "<td>" + data.Contrast.Name + "</td>";
-		row += "<td>" + data.Contrast.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.Contrast.Value) + '">' + data.Contrast.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		row += "<td>Decisiveness</td>";
 		row += "<td>" + data.Decisiveness.Name + "</td>";
-		row += "<td>" + data.Decisiveness.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.Decisiveness.Value) + '">' + data.Decisiveness.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		row += "<td>Flamboyance</td>";
 		row += "<td>" + data.Flamboyance.Name + "</td>";
-		row += "<td>" + data.Flamboyance.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.Flamboyance.Value) + '">' + data.Flamboyance.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		row += "<td>OfferingGuidance</td>";
 		row += "<td>" + data.OfferingGuidance.Name + "</td>";
-		row += "<td>" + data.OfferingGuidance.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.OfferingGuidance.Value) + '">' + data.OfferingGuidance.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		row += "<td>RequestingGuidance</td>";
 		row += "<td>" + data.RequestingGuidance.Name + "</td>";
-		row += "<td>" + data.RequestingGuidance.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.RequestingGuidance.Value) + '">' + data.RequestingGuidance.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		row += "<td>Slang</td>";
 		row += "<td>" + data.Slang.Name + "</td>";
-		row += "<td>" + data.Slang.Value + "</td>";
+		row += "<td>" + '<span style="color:'+  colorPredict(data.Slang.Value) + '">' + data.Slang.Value + "</span>" + "</td>";
 		row += "</tr>";
 
 		content += tableHead;
@@ -78,10 +124,64 @@ $(document).ready(function() {
 		$("#table_styles").html( content );
 	}
 
-	var generateTopicIntentionsChart = function( data )
+	var generateActionStyleTable = function( data )
 	{
-		$("#TopicsIntention").show();
+		var content = '<h4 class="alert alert-info">Styles of Action</h4>';
+
+		var tableHead = '<table class="table table-bordered table-hover"> <thead><tr><th>Action</th><th>Type</th><th>Decisiveness</th><th>Temporality</th><th>Offering Guidance</th><th>Requesting Guidance</th></tr></thead><tbody>';
 		
+		var row = "";
+
+		for( var i = 0; i < data.length; i++ )
+		{
+			var temps = data[i];
+
+			var openColumn = "<td>"
+			var closeColumn = "</td>"
+
+			row += "<tr>";
+
+			row += openColumn;
+			if( temps.Action != undefined)
+				 row += temps.Action.Name 
+			row += closeColumn;
+
+			row += openColumn;
+			if( temps.ActionType.Result != undefined)
+				 row += temps.ActionType.Result.Name 
+			row += closeColumn;
+
+			row += openColumn;
+			if( temps.Decisiveness != undefined)
+				 row += temps.Decisiveness.Name 
+			row += closeColumn;
+
+			row += openColumn;
+			if( temps.TemporalityResult.Temporality != undefined)
+				 row += temps.TemporalityResult.Temporality.Name 
+			row += closeColumn;
+
+			row += openColumn;
+			if( temps.OfferingGuidance != undefined)
+				 row += temps.OfferingGuidance.Name 
+			row += closeColumn;
+
+			row += openColumn;
+			if( temps.RequestingGuidance != undefined)
+				 row += temps.RequestingGuidance.Name 
+			row += closeColumn;
+
+			row += "</tr>";
+		}
+
+		content += tableHead;
+		content += row;
+		content += "</tbody></table>";
+		$("#table_actionstyles").html( content );
+	}
+
+	var generateTopicIntentionsChart = function( data )
+	{		
 		// get data
 		var Topics = new Array();
 		var TopicsData = new Array();
@@ -113,10 +213,8 @@ $(document).ready(function() {
 
 	}
 
-	var generateTopTopicsChart = function( data )
+	var generateActionsChart = function( data )
 	{
-		$("#Actions").show();
-		
 		// get data
 		var Topics = new Array();
 		var TopicsData = new Array();
@@ -154,26 +252,28 @@ $(document).ready(function() {
 		data = data.replace(/\\/g, "\\\\");
 
 		var responseObj = JSON && JSON.parse(data) || $.parseJSON(data);
-		console.log(responseObj);
+		// console.log(responseObj);
 
 		var resultObj = responseObj.AmplifyResponse.AmplifyReturn;
 
 		generateDemographicTable( resultObj.Demographics );
 		generateTopicIntentionsChart( resultObj.TopicIntentions );
-		generateTopTopicsChart( resultObj.Actions );
+		generateActionsChart( resultObj.Actions );
 		generateStyleTable( resultObj.Styles );
+		generateActionStyleTable( resultObj.Actions.TopActions );
+		generateTableTopTopics( resultObj.Topics.TopTopics );
 
-		$("#content_table").show();
+		$("#content").show();
 	}
 
       $("#amplify_button").click(function(){
 
       		// get input
-      		var input = $("#amplify_input").val();
+      		var SourceURL = $("#amplify_input").val();
 
-      		if( input.indexOf("http") == -1 )
+      		if( SourceURL.indexOf("http") == -1 )
       		{
-      			input = "http://" + input;
+      			SourceURL = "http://" + SourceURL;
       		}
 
       		//  OpenAmplify Constant
@@ -181,58 +281,64 @@ $(document).ready(function() {
       		var APIURL 			= "http://portaltnx20.openamplify.com/AmplifyWeb_v30/AmplifyThis";
       		var AnalysisType 	= "all";
       		var OutputFormat	= "json";
-      		var SourceURL 		= encodeURIComponent(input);
       		var OpenAmplifyURL 	= APIURL 
 					      		+ "?" + "analysis=" + AnalysisType 
 					      		+ "&" + "apiKey=" + APIKey 
 					      		+ "&" + "sourceurl=" + SourceURL
 					      		+ "&" + "outputFormat=" + OutputFormat;
 
-			testGenerate();
-			// loadingAlert( input );
-			// var postData = 	{
-			// 					apiKey : APIKey,
-			// 					analysis : AnalysisType,
-			// 					sourceURL : input, 
-			// 					outputFormat : OutputFormat
-			// 				}
+			// testGenerate();
+			loadingAlert( SourceURL );
+			var postData = 	{
+								apiKey : APIKey,
+								analysis : AnalysisType,
+								sourceURL : SourceURL, 
+								outputFormat : OutputFormat
+							}
 
 			// console.log(postData);
 
-			// var jqxhr = $.post("api.php", postData, function( response , status ) {
+			var jqxhr = $.post("api.php", postData, function( response , status ) {
 
-			// 	contentAlert( "<h4>Amplified !</h4>", "success" );
+				contentAlert( "<h4>Analyzed !</h4>", "success" );
 
-			//  	console.log("status : " + status);
-			// 	response = response.replace(/\n/g, "<br>");
-			// 	response = response.replace(/\\/g, "\\\\");
+			 	// console.log("status : " + status);
+				response = response.replace(/\n/g, "<br>");
+				response = response.replace(/\\/g, "\\\\");
 
-			// 	var temps = response.split( "AmplifyReturn" );
+				var temps = response.split( "AmplifyReturn" );
 
-			// 	if( temps[1] === undefined )
-			// 	{
-			// 	  	console.log(response);
-			// 		contentAlert( "<h4>Request Failed !</h4>Source is not suitable for sentiment analysis" , "error" );
-			// 	}
-			// 	else
-			// 	{
-			// 		response = '{"AmplifyReturn' + temps[1];
-			// 		response = response.substr( 0, response.length-1 );
+				if( temps[1] === undefined )
+				{
+				  	// console.log(response);
+					contentAlert( "<h4>Request Failed !</h4>Source is not suitable for sentiment analysis" , "error" );
+				}
+				else
+				{
+					$("#source").html( SourceURL );
 
-			// 	  	console.log(response);
+					response = '{"AmplifyReturn' + temps[1];
+					response = response.substr( 0, response.length-1 );
 
-			// 	  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
-			// 	  	console.log(responseObj);
+				  	// console.log(response);
 
-			// 	  	// show results !
-			// 	  	var resultObj = responseObj.AmplifyReturn;
-			// 		generateDemographicTable( resultObj.Demographics );
-			// 		generateTopicIntentionsChart( resultObj.TopicIntentions );
-			// 		generateTopTopicsChart( resultObj.Actions );
-			// 	}
+				  	var responseObj = JSON && JSON.parse(response) || $.parseJSON(response);
+				  	// console.log(responseObj);
 
-			// })
-			// jqxhr.fail(function( response ) { contentAlert( "<h4>Request Failed !</h4>Amplify failed please try again with another source or re-check your source", "error" ); console.log(response); })
+					var resultObj = responseObj.AmplifyReturn;
+
+				  	// show results !
+					generateDemographicTable( resultObj.Demographics );
+					generateTopicIntentionsChart( resultObj.TopicIntentions );
+					generateActionsChart( resultObj.Actions );
+					generateStyleTable( resultObj.Styles );
+					generateActionStyleTable( resultObj.Actions.TopActions );
+					generateTableTopTopics( resultObj.Topics.TopTopics );
+					$("#content").show();
+				}
+
+			})
+			jqxhr.fail(function( response ) { contentAlert( "<h4>Request Failed !</h4>Amplify failed please try again with another source or re-check your source", "error" ); console.log(response); })
 
       });
 
